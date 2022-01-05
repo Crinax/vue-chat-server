@@ -7,11 +7,11 @@ class API {
     DB.init([
       {
         name: 'journal',
-        scheme: JournalSchema,
+        schema: JournalSchema,
       },
       {
         name: 'users',
-        scheme: UsersSchema
+        schema: UsersSchema
       }
     ]);
     console.log('DB status initialization:', DB.status);

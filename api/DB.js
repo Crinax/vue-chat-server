@@ -2,7 +2,7 @@ const { open } = require('fs/promises')
 const { normalize } = require('path')
 
 class DB {
-  static schemes;
+  static tables;
   static DB_PATH = normalize(`${__dirname}/../DB`);
   static status = 'ok';
 
@@ -10,7 +10,7 @@ class DB {
     DB.tables = tables;
     for (let table of DB.tables) {
       if (!table.name) throw new Error('Unspecified table name!');
-      if (!table.scheme) throw new Error('Unspecified table scheme!');
+      if (!table.schema) throw new Error('Unspecified table schema!');
 
       table = DB.createTable(table);
 
@@ -32,16 +32,25 @@ class DB {
       await file?.close();
     }
   }
+  // TODO: Add cheme checker and compare table&scheme (or some ways add Model :) )
+  static async compare(table, schema) {
+    for (let prop)
+  }
 
   static async get(tableName) {
     let table;
     let result;
+    const schema = _.find(DB.tables, ['name', tableName]);
+
+    if (schema === undefined) throw new Error('Table not found!');
 
     try {
       table = await open(`${DB.DB_PATH}/${tableName}.json`, 'r');
       result = await table.readFile();
       result = result.toString();
       result = JSON.parse(result);
+
+      DB.compare(result, schema);
 
       return {
         status: DB.status,
@@ -62,8 +71,8 @@ class DB {
     }
   }
 
-  static post(tableName, values) {
-    return [];
+  static async post(tableName, values) {
+    
   }
 }
 

@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Crinax/vue-chat-server#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "crypto-js": "^4.1.1",
+    "express": "^4.17.2",
+    "lodash": "^4.17.21"
   }
 }
