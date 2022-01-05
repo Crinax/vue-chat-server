@@ -3,7 +3,7 @@ const JournalSchema = {
     type: Number,
     autoIncrement: true,
   },
-  login: String,
+  user: Number,
   message: String,
 }
 
