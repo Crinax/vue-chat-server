@@ -1,0 +1,23 @@
+{
+  "name": "vue-chat-server",
+  "version": "1.0.0",
+  "description": "Server side of chat on vue",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Crinax/vue-chat-server.git"
+  },
+  "author": "Crinax",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Crinax/vue-chat-server/issues"
+  },
+  "homepage": "https://github.com/Crinax/vue-chat-server#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
