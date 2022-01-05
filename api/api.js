@@ -1,30 +1,5 @@
 const DB = require('./DB');
-// const encryptFunc = require('./crypto');
-
-const JournalScheme = {
-  id: {
-    type: Number,
-    autoIncrement: true,
-  },
-  login: String,
-  message: String,
-}
-
-const UsersScheme = {
-  id: {
-    type: Number,
-    autoIncrement: true,
-    ref: 'journal',
-  },
-  login: {
-    type: String,
-    unique: true,
-  },
-  password: {
-    type: String,
-    // encryption: encryptFunc,
-  }
-}
+const { JournalSchema, UsersSchema } = require('./schema');
 
 class API {
 
@@ -32,18 +7,22 @@ class API {
     DB.init([
       {
         name: 'journal',
-        scheme: JournalScheme,
+        scheme: JournalSchema,
       },
       {
         name: 'users',
-        scheme: UsersScheme
+        scheme: UsersSchema
       }
     ]);
     console.log('DB status initialization:', DB.status);
   }
 
-  static getJournal() {
-    return DB.get('journal');
+  static async getJournal() {
+    return await DB.get('journal');
+  }
+
+  static async getUsers() {
+    return await DB.get('users');
   }
 
   static authUser({ password, login }) {

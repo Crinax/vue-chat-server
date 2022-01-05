@@ -6,9 +6,13 @@ const port = 3000;
 
 API.init();
 
-app.get('/journal', (req, res) => {
-  res.send(API.getJournal());
+app.get('/journal', async (req, res) => {
+  res.send(await API.getJournal());
 });
+
+app.get('/users', async (req, res) => {
+  res.send(await API.getUsers());
+})
 
 app.post('/message', (req, res) => {
   res.send(API.postMessage(req.body));
