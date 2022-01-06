@@ -9,12 +9,18 @@ class DB {
   static init(tables) {
     DB.tables = tables;
     for (let table of DB.tables) {
-      if (!table.name) throw new Error('Unspecified table name!');
-      if (!table.schema) throw new Error('Unspecified table schema!');
+      if (!table.name) {
+        throw new Error('Unspecified table name!');
+      }
+      if (!table.schema) {
+        throw new Error('Unspecified table schema!');
+      }
 
       table = DB.createTable(table);
 
-      if (DB.status !== 'ok') throw new Error(DB.status);
+      if (DB.status !== 'ok') {
+        throw new Error(DB.status);
+      }
     }
   }
 
@@ -22,7 +28,7 @@ class DB {
     let file;
     try {
       file = await open(`${DB.DB_PATH}/${name}.json`, 'r');
-    } catch (err) {
+    } catch {
       try {
         file = await open(`${DB.DB_PATH}/${name}.json`, 'w');
       } catch (err) {
@@ -32,7 +38,7 @@ class DB {
       await file?.close();
     }
   }
-  // TODO: Add cheme checker and compare table&scheme (or some ways add Model :) )
+  // TODO: Add schema checker and compare table&scheme (or some ways add Model :) )
   static async compare(table, schema) {
     for (let prop)
   }
@@ -42,7 +48,9 @@ class DB {
     let result;
     const schema = _.find(DB.tables, ['name', tableName]);
 
-    if (schema === undefined) throw new Error('Table not found!');
+    if (schema === undefined) {
+      throw new Error('Table not found!');
+    }
 
     try {
       table = await open(`${DB.DB_PATH}/${tableName}.json`, 'r');
@@ -50,7 +58,7 @@ class DB {
       result = result.toString();
       result = JSON.parse(result);
 
-      DB.compare(result, schema);
+      await DB.compare(result, schema);
 
       return {
         status: DB.status,
@@ -72,7 +80,7 @@ class DB {
   }
 
   static async post(tableName, values) {
-    
+
   }
 }
 

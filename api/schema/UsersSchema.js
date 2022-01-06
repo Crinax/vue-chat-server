@@ -2,7 +2,6 @@ const UsersSchema = {
   id: {
     type: Number,
     autoIncrement: true,
-    ref: 'journal:user',
   },
   login: {
     type: String,

@@ -3,7 +3,10 @@ const JournalSchema = {
     type: Number,
     autoIncrement: true,
   },
-  user: Number,
+  user: {
+    type: Number,
+    ref: 'users:id',
+  },
   message: String,
 }
 
