@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const API = require('./api/api.js');
 
 require('dotenv').config();
@@ -6,10 +7,18 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 
-app.use(express.json());
 API.init();
 
-app.get('/journal', async (req, res) => {
+app.use(express.json());
+app.use(cors());
+app.all('*', function(req, res, next) {
+  var origin = req.get('origin');
+  res.header('Access-Control-Allow-Origin', origin);
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
+app.get('/chat', async (req, res) => {
   res.send(await API.getChat());
 });
 

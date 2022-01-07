@@ -36,7 +36,7 @@ class API {
       }
 
     } else {
-      if (user.password === cryptoPass) {
+      if (user[0].password === cryptoPass) {
         message = 'Registered successfully';
         authorized = true;
       } else {
