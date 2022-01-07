@@ -1,9 +1,13 @@
 const express = require('express');
 const API = require('./api/api.js');
 
+require('dotenv').config();
+
 const app = express();
 const port = 3000;
 
+app.use(morgan('dev'));
+app.use(express.json());
 API.init();
 
 app.get('/journal', async (req, res) => {
