@@ -49,14 +49,12 @@ class API {
 
 
   static async addMessage(login, message) {
-    const [writer] = Users.find({ login });
-    const newMessage = new Chat({ login, message });
+    const writer = await Users.find({ login });
+    const newMessage = new Chat({ user: writer[0]._id, message });
 
     await newMessage.save();
 
-    const allMessages = await API.getChat();
-
-    return { messages: allMessages };
+    return { ok: true };
   }
 
   static getCrypt(text) {

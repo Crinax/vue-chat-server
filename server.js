@@ -27,7 +27,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/message', async (req, res) => {
-  res.send(await API.postMessage(req.body.login, req.body.message));
+  res.send(await API.addMessage(req.body.login, req.body.message));
 });
 
 app.post('/auth', async (req, res) => {
