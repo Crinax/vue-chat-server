@@ -1,40 +1,59 @@
 const mongoose = require('mongoose');
+const md5 = require('md5');
 const { Chat, Users } = require('./models');
-const md5 = require('crypto-js/md5');
 
 class API {
   static connection;
 
-  async static init() {
+  static async init() {
     API.connection = await mongoose.connect(process.env.DB_HOST);
   }
 
-  async static getUsers() {
+  static async getUsers() {
     return await Users.find();
   }
 
-  async static getChat() {
+  static async getChat() {
     return await Chat.find().populate('user').exec();
   }
 
-  async static auth(login, password) {
-    let user = await Users.find({ login, password: API.getCrypt(password) });
+  static async auth(login, password) {
+    const cryptoPass = API.getCrypt(password);
+    let user = await Users.find({ login });
+    let message = '';
+    let authorized = false;
 
     if (user.length === 0) {
-      user = new Users(login, API.getCrypt(password));
-     
-      await user.save();
+      user = new Users({ login, password: cryptoPass });
+
+      try {
+        await user.save();
+
+        message = 'Registered successfully';
+        authorized = true;
+      } catch {
+        message = 'Server error. Try later';
+      }
+
+    } else {
+      if (user.password === cryptoPass) {
+        message = 'Registered successfully';
+        authorized = true;
+      } else {
+        message = 'Invalid password';
+      }
     }
 
-    return { authorized: true, login: login };
+    return { authorized, login, message };
   }
-  
-  // TODO Add message crypto
-  async static addMessage(login, message) {
-    const message = new Chat({ login, message });
-    
-    await message.save();
-    
+
+
+  static async addMessage(login, message) {
+    const [writer] = Users.find({ login });
+    const newMessage = new Chat({ login, message });
+
+    await newMessage.save();
+
     const allMessages = await API.getChat();
 
     return { messages: allMessages };
@@ -43,12 +62,14 @@ class API {
   static getCrypt(text) {
     let result = text;
 
-    for (let i = 0; i < 2042; i++) {
+    for (let i = 0; i < 2048; i++) {
       result = md5(result);
       if (i % 2 || i % 3) {
-        result = result.split().reverse().join('');
+        result = result.split('').reverse().join('');
       }
     }
+
+    return result;
   }
 }
 
