@@ -12,7 +12,7 @@ API.init();
 app.use(express.json());
 app.use(cors());
 app.all('*', function(req, res, next) {
-  var origin = req.get('origin');
+  const origin = req.get('origin');
   res.header('Access-Control-Allow-Origin', origin);
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
@@ -31,8 +31,8 @@ app.post('/message', async (req, res) => {
 });
 
 app.post('/auth', async (req, res) => {
-  res.send(await API.auth(req.body.login, req.body.password))
-})
+  res.send(await API.auth(req.body.login, req.body.password));
+});
 
 app.listen(port, () => {
   console.log('Listening http://localhost:3000/');
