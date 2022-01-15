@@ -18,11 +18,10 @@
   },
   "homepage": "https://github.com/Crinax/vue-chat-server#readme",
   "dependencies": {
-    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.2",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
-    "mongoose": "^6.1.5"
+    "mongoose": "^6.1.5",
+    "ws": "^8.4.0"
   }
 }

@@ -4,6 +4,37 @@ const { Chat, Users } = require('./models');
 
 class API {
   static connection;
+  static isAuthorized = false;
+
+  static authApi({ user, token }) {
+    if (user === process.env.WS_USER && token === process.env.WS_API_TOKEN) {
+      console.log(`Authorized user "${user}"`);
+
+      return { body: { access: true, message: 'unauthorized' } }
+    }
+
+    return { access: false }
+  }
+  
+  static respondError(body) {
+    return JSON.stringify({ ok: false, ...body });
+  }
+
+  static respondSuccess(body) {
+    return JSON.stringify({ ok: true, ...body });
+  }
+
+  static async respond(data) {
+    if (data.access === false) {
+      return API.respondError(data.body);
+    }
+
+    if (data.ok === false) {
+      return API.respondError(data.message);
+    }
+
+    return API.respondSuccess(data.body)
+  }
 
   static async init() {
     API.connection = await mongoose.connect(process.env.DB_HOST);
@@ -17,7 +48,7 @@ class API {
     return await Chat.find().populate('user').exec();
   }
 
-  static async auth(login, password) {
+  static async authUser(login, password) {
     const cryptoPass = API.getCrypt(password);
     let user = await Users.find({ login });
     let message = '';
