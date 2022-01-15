@@ -16,6 +16,7 @@ class Commander {
         'user->auth': API.authUser,
         'auth': API.authApi,
         'chat->send': API.addMessage,
+        'ping': async () => 'pong'
     };
 
     async resolve() {
@@ -24,7 +25,7 @@ class Commander {
         }
 
         if (this.request) {
-            return await API.respond(this.request(this.body));
+            return API.respond(await this.request(this.body));
         }
 
         return API.respondError('unknown command');

@@ -24,7 +24,7 @@ class API {
     return JSON.stringify({ ok: true, ...body });
   }
 
-  static async respond(data) {
+  static respond(data) {
     if (data.access === false) {
       return API.respondError(data.body);
     }
