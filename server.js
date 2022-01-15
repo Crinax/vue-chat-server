@@ -8,15 +8,15 @@ API.init();
 
 const wss = new WebSocketServer({ port: process.env.WS_PORT });
 
-const onMessage = (request) => {
+const onMessage = async (request) => {
   const data = JSON.parse(request);
   const command = new Commander(data.target, data.body);
 
   wss.send(await command.resolve());
 };
 
-const onConnection = (client) => {
-  client.on('message', onMessage);
+const onConnection = async (client) => {
+  await client.on('message', onMessage);
 
   console.log('Connection initialized on PORT: ', process.env.WS_PORT);
 };
