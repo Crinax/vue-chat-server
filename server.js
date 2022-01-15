@@ -12,7 +12,7 @@ const onMessage = (request) => {
   const data = JSON.parse(request);
   const command = new Commander(data.target, data.body);
 
-  wss.send(command.resolve());
+  wss.send(await command.resolve());
 };
 
 const onConnection = (client) => {
