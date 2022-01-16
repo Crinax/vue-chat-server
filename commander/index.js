@@ -16,7 +16,7 @@ class Commander {
         'user->auth': API.authUser,
         'auth': API.authApi,
         'chat->send': API.addMessage,
-        'ping': async () => { message: 'pong' }
+        'ping': async () => { return { message: 'pong' }; }
     };
 
     async resolve() {
