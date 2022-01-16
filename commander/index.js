@@ -16,11 +16,11 @@ class Commander {
         'user->auth': API.authUser,
         'auth': API.authApi,
         'chat->send': API.addMessage,
-        'ping': async () => 'pong'
+        'ping': async () => { message: 'pong' }
     };
 
     async resolve() {
-        if (!API.isAuthorized && this.command !== 'auth') {
+        if (!API.isAuthorized && this.command !== 'auth' && this.command !== 'ping') {
             return API.respondError('unauthorized');
         }
 

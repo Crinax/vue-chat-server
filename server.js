@@ -18,7 +18,7 @@ const onMessage = async (request) => {
 const onConnection = async (client) => {
   await client.on('message', onMessage);
 
-  console.log('Connection initialized on PORT: ', process.env.WS_PORT);
+  console.log(client);
 };
 
 wss.on('connection', onConnection);
