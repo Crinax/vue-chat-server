@@ -10,10 +10,10 @@ class API {
     if (user === process.env.WS_USER && token === process.env.WS_API_TOKEN) {
       console.log(`Authorized user "${user}"`);
 
-      return { body: { access: true, message: 'unauthorized' } }
+      return { body: { access: true, message: 'authorized' } }
     }
 
-    return { access: false }
+    return { access: false, message: 'unauthorized' }
   }
   
   static respondError(body) {
